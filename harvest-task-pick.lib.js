@@ -90,7 +90,13 @@
         noResultsMessage: '<p>No tasks found!</p>',
         valueFunction: self.taskValue,
         renderFunction: self.renderTask,
-        onComplete: self.selectTask,
+        onComplete: function(dataItem) {
+          self.selectTask(dataItem);
+          //Jump to next form item after picker.
+          //NB: Task Picker has same tabIndex as original project picker. Original task picker
+          //has tabIndex+1 so increment by 2.
+          self.find('*[tabIndex="'+(parseInt(self.taskPicker.attr('tabIndex'))+2)+'"]:visible:first').focus();
+        },
       });
     },
     
