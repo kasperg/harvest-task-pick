@@ -81,7 +81,7 @@
         staticData: self.taskData,
         typingDelay: 0, //We use local data so get to work immediatly
         splitTerm: true,
-        wordDelimiter: /[^\da-z]+/ig,
+        wordDelimiter: /[\s+]+/ig,
         ignoreCase: true,
         //Matching on name is enough when we use splitTerm. It contains all necessary data!
         dontMatch: ['client', 'project', 'projectId', 'code', 'task', 'taskId', 'billable'],
