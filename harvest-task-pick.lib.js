@@ -86,6 +86,7 @@
         //Matching on name is enough when we use splitTerm. It contains all necessary data!
         dontMatch: ['client', 'project', 'projectId', 'code', 'task', 'taskId', 'billable'],
         resultLimit: 10,
+        activateFirst: true,
         noResultsMessage: '<p>No tasks found!</p>',
         valueFunction: self.taskValue,
         renderFunction: self.renderTask,
