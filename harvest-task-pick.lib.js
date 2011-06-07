@@ -4,26 +4,26 @@
 (function($){
   $.fn.harvestTaskPick = function() {
     var self = this;
+
+    self.taskPicker;
     self.taskData = [];
     
-    this.loadStylesheet = function () {
+    self.loadStylesheet = function () {
       //Load the stylesheet - but only once!
-      //TODO: Clean up
-      var cssSrc = 'https://github.com/kasperg/harvest-task-pick/raw/master/harvest-task-pick.css';
+      var cssSrc = 'https://raw.github.com/kasperg/harvest-task-pick/master/harvest-task-pick.css';
       if (!$('link[src="' + cssSrc + '"]').size()) {
-        var link = $("<link>");
-        link.attr({
-                type: 'text/css',
-                rel: 'stylesheet',
-                href: cssSrc
+        var link = $('<link>').attr({
+          type: 'text/css',
+          rel:  'stylesheet',
+          href: cssSrc
         });
-        $("head").append(link);      
+        $('head').append(link);      
       }
     },
     
-    this.collectTaskData = function() {
+    self.collectTaskData = function() {
       //Collect task data
-      this.find('#project_selector optgroup').each(function(i, e) {
+      self.find('#project_selector optgroup').each(function(i, e) {
         //Extract client information
         var client = $(e).attr('label');
         
@@ -35,7 +35,7 @@
           var project = projectInfo[1];
           var code = (projectInfo.length >= 4) ? projectInfo[3] : NULL;
           
-          $(self).find('#project' + projectId + '_task_selector optgroup').each(function(i, e) {
+          self.find('#project' + projectId + '_task_selector optgroup').each(function(i, e) {
             //Is the task billable?
             var billable = $(e).attr('label') == 'Billable';
             
@@ -52,7 +52,7 @@
       });
       
       //Generate the name for each task
-      $(this.taskData).each(function(i, e) {
+      $(self.taskData).each(function(i, e) {
         if (!e.code) {
           e.name = e.client + ' ' + e.project + ' ' + e.task;
         } else {
@@ -62,16 +62,22 @@
       });
     },
     
-    this.renderTaskPicker = function() {
+    self.renderTaskPicker = function() {
       //Create an input field for the task picker
-      this.find('.select_overflow:visible')
+      var input = $('<input/>').attr({
+        type:     'text',
+        tabIndex: self.find('.tasks_select:first').attr('tabIndex'),
+      });
+      
+      self.find('.select_overflow:visible')
         .hide() //Hide existing controls
-        .after( '<div class="harvest-task-pick">'+
-                  '<input type="text" tabIndex="'+this.find('.tasks_select:first').attr('tabIndex')+'"/>'+
-                '</div>'); //TODO: Clean up
+        .after($('<div class="harvest-task-pick"></div>')); //Create a wrapper for the picker
+      
+      //Insert the input field
+      self.taskPicker = this.find('.harvest-task-pick').append(input).find('input');
 
       //Grab focus and add autocomplete using awesomecomplete
-      this.find('.harvest-task-pick input').focus().awesomecomplete({
+      self.taskPicker.focus().awesomecomplete({
         staticData: self.taskData,
         typingDelay: 0, //We use local data so get to work immediatly
         splitTerm: true,
@@ -87,15 +93,15 @@
       });
     },
     
-    this.taskValue = function(dataItem) {
+    self.taskValue = function(dataItem) {
       return dataItem['name'];
     },
     
-    this.renderTask = function(dataItem, topMatch, originalData) {
+    self.renderTask = function(dataItem, topMatch, originalData) {
       return '<p class="title">' + dataItem['name'] + '</p>';
     },
     
-    this.selectTask = function(dataItem) {
+    self.selectTask = function(dataItem) {
       //Unset any previously selected values
       self.find(':selected').removeAttr('selected');
       //Select project
@@ -107,8 +113,8 @@
     },
     
     //Initialize Harvest Task Pick
-    this.loadStylesheet();
-    this.collectTaskData();
-    this.renderTaskPicker();
+    self.loadStylesheet();
+    self.collectTaskData();
+    self.renderTaskPicker();
   }
 })(jQuery);

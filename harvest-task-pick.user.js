@@ -36,5 +36,5 @@ function main() {
 //Load the libraries we need into page scope. Inspired by
 //http://erikvold.com/blog/index.cfm/2010/6/14/using-jquery-with-a-user-script
 loadScript('https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
-loadScript('https://github.com/kasperg/awesomecomplete/raw/master/jquery.awesomecomplete.js');
-loadScript('https://github.com/kasperg/harvest-task-pick/raw/master/harvest-task-pick.lib.js', main);
+loadScript('https://raw.github.com/kasperg/awesomecomplete/master/jquery.awesomecomplete.js');
+loadScript('https://raw.github.com/kasperg/harvest-task-pick/master/harvest-task-pick.lib.js', main);
