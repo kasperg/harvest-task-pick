@@ -2,7 +2,7 @@
 // @name            Harvest Task Pick
 // @namespace       http://reload.dk/
 // @description     Select harvest tasks using autocomplete instead of drop downs
-// @version         0.1
+// @version         0.2
 // @include         https://*.harvestapp.com/*
 // ==/UserScript==
 
