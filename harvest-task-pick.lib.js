@@ -66,7 +66,7 @@
       //Create an input field for the task picker
       var input = $('<input/>').attr({
         type:     'text',
-        tabIndex: self.find('.tasks_select:first').attr('tabIndex'),
+        tabIndex: self.find('.tasks_select:first').attr('tabIndex')
       });
       
       self.find('.select_overflow:visible')
@@ -96,7 +96,7 @@
           //NB: Task Picker has same tabIndex as original project picker. Original task picker
           //has tabIndex+1 so increment by 2.
           self.find('*[tabIndex="'+(parseInt(self.taskPicker.attr('tabIndex'))+2)+'"]:visible:first').focus();
-        },
+        }
       });
     },
     
