@@ -8,19 +8,6 @@
     self.taskPicker;
     self.taskData = [];
     
-    self.loadStylesheet = function () {
-      //Load the stylesheet - but only once!
-      var cssSrc = 'https://raw.github.com/kasperg/harvest-task-pick/master/harvest-task-pick.css';
-      if (!$('link[src="' + cssSrc + '"]').size()) {
-        var link = $('<link>').attr({
-          type: 'text/css',
-          rel:  'stylesheet',
-          href: cssSrc
-        });
-        $('head').append(link);      
-      }
-    },
-    
     self.collectTaskData = function() {
       //Collect task data
       self.find('#project_selector optgroup').each(function(i, e) {
@@ -66,7 +53,7 @@
       //Create an input field for the task picker
       var input = $('<input/>').attr({
         type:     'text',
-        tabIndex: self.find('.tasks_select:first').attr('tabIndex')
+        tabIndex: self.find('.tasks_select:first').attr('tabIndex'),
       });
       
       self.find('.select_overflow:visible')
@@ -96,7 +83,7 @@
           //NB: Task Picker has same tabIndex as original project picker. Original task picker
           //has tabIndex+1 so increment by 2.
           self.find('*[tabIndex="'+(parseInt(self.taskPicker.attr('tabIndex'))+2)+'"]:visible:first').focus();
-        }
+        },
       });
     },
     
@@ -120,7 +107,6 @@
     },
     
     //Initialize Harvest Task Pick
-    self.loadStylesheet();
     self.collectTaskData();
     self.renderTaskPicker();
   }
