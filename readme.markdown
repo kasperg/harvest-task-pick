@@ -24,18 +24,20 @@ Harvest Task Pick replaces the dual drop downs which Harvest normally uses for t
 5. Use the arrow keys to navigate between suggestions and hit enter or tab to select. Focus will automatically jump to the time field.
 6. Enter time and/or notes as normal
 
-Harvest Task Pick does currently not support:
+Harvest Task Pick does currently not modify:
 
 - Weekly timesheets
-- Editing tasks
+- Editing tasks on daily timesheets
 
 ## Development notes
 
-I have put a lot of effort in trying to make the same code run in both Chrome and Firefox/Greasemonkey. As the implementation of user scripts is quite different between browsers this has so far resulted in a minimal user script which mainly consists of meta data and custom methods for injecting the task picker and external dependencies like jQuery into the page and ensuring execution order.
+I have put a lot of effort in trying to make the same code run in both Chrome and Firefox/Greasemonkey. As the implementation of user scripts is quite different between browsers this has so far resulted in a minimal user script which mainly consists of meta data and custom methods for injecting the task picker and external dependencies like jQuery into the DOM and ensuring execution order.
 
-Both Chrome and Firefox refuse to interpret CSS files located in GitHub repositories. This is probably because they are served with  content type text/plain instead of text/css. Consequently I have introduced a build process which parse the `harvest-task.pick.user.src.js` file, look for `/* styles(url) */` declarations and replace the comment with the content of the file hosted at the url and write the result to `harvest-task-pick.usr.js`.
+Chrome and Firefox refuse to interpret CSS files located in GitHub repositories. This is probably because they are served with  content type text/plain instead of text/css. Consequently I have introduced a build process which parses the `harvest-task.pick.user.src.js` file, look for `/* styles(url) */` declarations and replace the comment with the content of the file hosted at the url and write the result to `harvest-task-pick.usr.js`.
 
-The build process is built in PHP and executed using `php build.php` from the Harvest Task Pick root directory.
+The build process also adds minor version numbers to the resulting user script based on the current date and time.
+
+Building Harvest Task Pick requires PHP available from the command line and is executed using `php build.php` from the Harvest Task Pick root directory.
 
 ## Versions 
 
