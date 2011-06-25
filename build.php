@@ -30,8 +30,27 @@ function insert_resource($matches) {
   return $resource;
 }
 
+// Generate version/build number
+function insert_version($matches) {
+  list($version_string, $version) = $matches;
+  
+  // Base build numbers on the time of the build
+  // Somewhat convoluted but it conforms to Chromes rules:
+  // 1-4 .(dot)-separated integers between 0 and 65356.
+  $time = time();
+  $major = round(sqrt($time));
+  $minor = $time % $major;
+  
+  return implode('.', array($version_string, $major, $minor));
+}
+
+
 // Detect, load and replace external resources with local declarations
 $src = preg_replace_callback('|/\*\s*(\w+)\((.*?)\)\s*\*/|', 'insert_resource', $src);
+
+// Replace version
+$src = preg_replace_callback('|@version\s+(\S+)|', 'insert_version', $src);
+
 
 // Write the compiled user script
 file_put_contents(__DIR__.'/harvest-task-pick.user.js', $src);
