@@ -47,7 +47,7 @@
         }
         e.name += ((e.billable) ? ' (+$)' : ' (-$)');
       });
-    },
+    };
     
     self.renderTaskPicker = function() {
       //Create an input field for the task picker
@@ -85,15 +85,15 @@
           self.find('*[tabIndex="'+(parseInt(self.taskPicker.attr('tabIndex'))+2)+'"]:visible:first').focus();
         },
       });
-    },
+    };
     
     self.taskValue = function(dataItem) {
       return dataItem['name'];
-    },
+    };
     
     self.renderTask = function(dataItem, topMatch, originalData) {
       return '<p class="title">' + dataItem['name'] + '</p>';
-    },
+    };
     
     self.selectTask = function(dataItem) {
       //Unset any previously selected values
@@ -104,10 +104,12 @@
         .parents('select').change(); //trigger change for good measure
       //Select task
       self.find('#project' + dataItem.projectId + '_task_selector option[value="' + dataItem.taskId + '"]').attr('selected', 'selected');
-    },
+    };
     
-    //Initialize Harvest Task Pick
-    self.collectTaskData();
-    self.renderTaskPicker();
+    //Initialize Harvest Task Pick if not already initialized
+    if (self.find('.harvest-task-pick').length == 0) {
+      self.collectTaskData();
+      self.renderTaskPicker();
+    }
   }
 })(jQuery);
