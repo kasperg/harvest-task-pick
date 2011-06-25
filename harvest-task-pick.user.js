@@ -1,3 +1,25 @@
+/**
+ * Copyright (c) 2011 Kasper Garnæs
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a 
+ * copy of this software and associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, including without limitation 
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ * THE SOFTWARE.
+ **/
+
 // ==UserScript==
 // @name            Harvest Task Pick
 // @namespace       http://reload.dk/
@@ -53,11 +75,10 @@ HarvestTaskPick = function() {
   //http://erikvold.com/blog/index.cfm/2010/6/14/using-jquery-with-a-user-script
   self.scripts.push('https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
   self.scripts.push('https://raw.github.com/kasperg/awesomecomplete/master/jquery.awesomecomplete.js');
-  self.scripts.push('https://raw.github.com/kasperg/harvest-task-pick/master/jquery.harvest-task-pick.js', main);
-  
-  self.loadStyles(styles);
-  
+  self.scripts.push('https://raw.github.com/kasperg/harvest-task-pick/master/jquery.harvest-task-pick.js');
   self.loadScripts(self.init);
+
+  self.loadStyles(styles);
 };
 
 // Styles are injected here
@@ -127,9 +148,89 @@ ul.autocomplete span.match\
 }\
               /* Harvest Tack Pick element styles */\
 \
-.harvest-task-pick input { height: 22px; padding: 10px 8px; font-size: 18px; font-weight: bold; }\
-.harvest-task-pick ul.autocomplete { z-index: 1; }\
-.harvest-task-pick ul.autocomplete li.active { background-color: #EEE; }\
-.harvest-task-pick ul.autocomplete li p.title { padding: 0; color: #444; font-size: 11px; }";
+.harvest-task-pick input\
+{\
+  font-size: 18px;\
+  font-weight: bold;\
+  height: 22px;\
+  padding: 10px 8px;  \
+}\
+\
+.harvest-task-pick ul.autocomplete\
+{\
+  z-index: 1;\
+}\
+\
+.harvest-task-pick ul.autocomplete li.active\
+{\
+    background-color: #EEE;\
+}\
+\
+.harvest-task-pick ul.autocomplete li p.title\
+{\
+  padding: 0;\
+  color: #444;\
+  font-size: 11px;\
+}\
+\
+/* Default awesomecomplete styles */\
+\
+ul.autocomplete\
+{\
+    background-color: #fff;\
+    border: 1px solid #777;\
+    display: block;\
+    list-style-type: none;\
+    margin: 0;\
+    min-height: 100px;\
+    padding: 2px;\
+    position: absolute;\
+}\
+\
+ul.autocomplete li\
+{\
+    border-top: 1px solid #aaa;\
+    cursor: pointer;\
+    padding: 4px;\
+}\
+\
+ul.autocomplete li:first-child\
+{\
+    border-top: none;\
+}\
+\
+ul.autocomplete li.active\
+{\
+    background-color: #eef;\
+}\
+\
+/* Default render function styles */\
+\
+ul.autocomplete li p\
+{\
+    margin: 1px 4px;\
+}\
+\
+ul.autocomplete li p.title\
+{\
+    font-weight: bold;\
+}\
+\
+ul.autocomplete li p.matchRow\
+{\
+    color: #666;\
+}\
+\
+ul.autocomplete li span.matchedField\
+{\
+    color: #999;\
+    font-style: italic;\
+}\
+\
+ul.autocomplete span.match\
+{\
+    font-weight: bold;\
+    text-decoration: underline;\
+}";
 
 HarvestTaskPick();
