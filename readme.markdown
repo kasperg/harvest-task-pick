@@ -32,6 +32,7 @@ Harvest Task Pick does currently not modify:
 ## Versions 
 
 - *0.3*:
+  - Update checker: Weekly checks for new versions. When a new version is available users will get a notification
   - Fixed Javascript and CSS includes: Refactored Javascript loading and introduced build system for CSS includes
   - Prevent Harvest Task Pick from executing multiple times for the same element
   - Improved Chrome domain matching and security warning: Use @match in metadata block.
@@ -55,3 +56,5 @@ Building Harvest Task Pick requires PHP available from the command line and is e
 ## Credits
 
 A lot of the autocomplete magic is provided by Clint Tsengs [awesomecomplete jQuery plugin](https://github.com/clint-tseng/awesomecomplete).
+
+Cross-browser user script update checking is based on [the SelfUpdatingScript example](https://gist.github.com/874058) by Benjol.

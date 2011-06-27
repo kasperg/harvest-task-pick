@@ -24,7 +24,7 @@
 // @name            Harvest Task Pick
 // @namespace       http://reload.dk/
 // @description     Select harvest tasks using autocomplete instead of drop downs
-// @version         0.3.36181.11060
+// @version         0.3.36182.15102
 // @include         https://*.harvestapp.com/*
 // @match           https://*.harvestapp.com/*
 // ==/UserScript==
@@ -34,18 +34,20 @@ HarvestTaskPick = function() {
   
   self.scripts = [];
   
-  self.loadScripts = function(callback) {
+  self.loadScripts = function(callbacks) {
     src = self.scripts.shift();
     //Add the script to the document body
     var script = document.createElement("script");
     script.setAttribute('src', src);
     script.addEventListener('load', function() {
       if (self.scripts.length > 0) {
-        self.loadScripts(callback);
-      } else {
-        var script = document.createElement("script");
-        script.textContent = "(" + callback.toString() + ")();";
-        document.body.appendChild(script);
+        self.loadScripts(callbacks);
+      } else if (callbacks !== undefined) {
+        for (var i= 0; i < callbacks.length; i++) {
+          var script = document.createElement("script");
+          script.textContent = "(" + callbacks[i].toString() + ")();";
+          document.body.appendChild(script);
+        }
       }
     }, false);
     document.body.appendChild(script);
@@ -56,6 +58,44 @@ HarvestTaskPick = function() {
     script.textContent = styles;
     document.body.appendChild(script);
   },
+  
+  self.updateCheck = function() {
+    var lastCheck = jQuery.cookie('harvest_task_pick_last_update_check');
+    // We check for new versions each week
+    if (lastCheck && 
+        (new Date().getTime() > (lastCheck + (60 * 60 * 24 * 7)))) {
+      // Based on https://gist.github.com/874058
+      var VERSION = "0.3.36182.15102";
+      var URL = "https://raw.github.com/kasperg/harvest-task-pick/master/jquery.harvest-task-pick.js";
+
+      if (window["selfUpdaterCallback:" + URL]) {
+        window["selfUpdaterCallback:" + URL](VERSION);
+        return;
+      }
+
+      function updateCheck(notifier) {
+        window["selfUpdaterCallback:" + URL] = function (ver) {
+          // Versions are string containing multiple .(periods) to split version elements.
+          // Join these to enable comparison. This is usable but not perfect for minor
+          // version number > 9.
+          if (parseFloat(ver.replace(/\./g, '')) > parseFloat(VERSION.replace(/\./g, ''))) {
+            notifier(ver, VERSION, URL);
+          }
+        }
+        jQuery("<script />").attr("src", URL).appendTo("head");
+      }
+
+      updateCheck(function (newVersion, oldVersion, url) {
+        jQuery.cookie('harvest_task_pick_last_update_check', new Date().getTime());          
+          if (confirm("A new version of Harvest Task Pick is avaiable.\n\n" + 
+                      "The most recent version is " + newVersion + ".\n" +
+                      "Your current version is " + oldVersion + ".\n\n" +
+                      "Do you want to download it from " + url + " now?")) {
+          window.location.href = url;
+        }
+      });
+    };
+  },  
     
   self.init = function() {
     //Harvest uses Prototype so we need to avoid conflicts
@@ -74,9 +114,10 @@ HarvestTaskPick = function() {
   //Load the libraries we need into page scope. Inspired by
   //http://erikvold.com/blog/index.cfm/2010/6/14/using-jquery-with-a-user-script
   self.scripts.push('https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
+  self.scripts.push('https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js');
   self.scripts.push('https://raw.github.com/kasperg/awesomecomplete/master/jquery.awesomecomplete.js');
   self.scripts.push('https://raw.github.com/kasperg/harvest-task-pick/master/jquery.harvest-task-pick.js');
-  self.loadScripts(self.init);
+  self.loadScripts([self.init, self.updateCheck]);
 
   self.loadStyles(styles);
 };

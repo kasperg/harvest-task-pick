@@ -31,25 +31,36 @@ function insert_resource($matches) {
 }
 
 // Generate version/build number
-function insert_version($matches) {
+function insert_build_version($matches) {
   list($version_string, $version) = $matches;
   
   // Base build numbers on the time of the build
   // Somewhat convoluted but it conforms to Chromes rules:
   // 1-4 .(dot)-separated integers between 0 and 65356.
   $time = time();
-  $major = round(sqrt($time));
+  $major = floor(sqrt($time));
   $minor = $time % $major;
   
   return implode('.', array($version_string, $major, $minor));
+}
+
+function insert_version($src) {
+  if (preg_match('|@version\s+(\S+)|', $src, $matches)) {
+    $src = preg_replace('|/\*\s*(version)\s*\*/|', $matches[1], $src);
+  }
+  return $src;
 }
 
 
 // Detect, load and replace external resources with local declarations
 $src = preg_replace_callback('|/\*\s*(\w+)\((.*?)\)\s*\*/|', 'insert_resource', $src);
 
-// Replace version
-$src = preg_replace_callback('|@version\s+(\S+)|', 'insert_version', $src);
+// Update version to include build time
+$src = preg_replace_callback('|@version\s+(\S+)|', 'insert_build_version', $src);
+
+// Insert version
+$src = insert_version($src);
+
 
 
 // Write the compiled user script
