@@ -66,8 +66,8 @@ HarvestTaskPick = function() {
         (new Date().getTime() > (lastCheck + (60 * 60 * 24 * 7)))) {
       // Based on https://gist.github.com/874058
       var VERSION = "/* version */";
-
       var URL = "https://raw.github.com/kasperg/harvest-task-pick/master/harvest-task-pick.user.js";
+      
       if (window["selfUpdaterCallback:" + URL]) {
         window["selfUpdaterCallback:" + URL](VERSION);
         return;
