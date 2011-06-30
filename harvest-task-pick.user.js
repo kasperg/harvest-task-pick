@@ -88,10 +88,10 @@ HarvestTaskPick = function() {
       }
 
       updateCheck(function (newVersion, oldVersion, url) {
-          if (confirm("A new version of Harvest Task Pick is avaiable.\n\n" + 
-                      "The most recent version is " + newVersion + ".\n" +
-                      "Your current version is " + oldVersion + ".\n\n" +
-                      "Do you want to download it from " + url + " now?")) {
+        if (confirm("A new version of Harvest Task Pick is avaiable.\n\n" + 
+                    "The most recent version is " + newVersion + ".\n" +
+                    "Your current version is " + oldVersion + ".\n\n" +
+                    "Do you want to download it from " + url + " now?")) {
           window.location.href = url;
         }
       });
