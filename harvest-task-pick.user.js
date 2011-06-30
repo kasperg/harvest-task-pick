@@ -60,42 +60,44 @@ HarvestTaskPick = function() {
   },
   
   self.updateCheck = function() {
-    var lastCheck = jQuery.cookie('harvest_task_pick_last_update_check');
-    // We check for new versions on first run and subsequently each week
-    if (!lastCheck ||
-        (new Date().getTime() > (lastCheck + (60 * 60 * 24 * 7)))) {
-      jQuery.cookie('harvest_task_pick_last_update_check', new Date().getTime());
-      
-      // Based on https://gist.github.com/874058
-      var URL = "https://raw.github.com/kasperg/harvest-task-pick/master/harvest-task-pick.user.js";
-      var VERSION = "0.3.36186.30356";
-      
-      if (window["selfUpdaterCallback:" + URL]) {
-        window["selfUpdaterCallback:" + URL](VERSION);
-        return;
-      }
-
-      function updateCheck(notifier) {
-        window["selfUpdaterCallback:" + URL] = function (ver) {
-          // Versions are string containing multiple .(periods) to split version elements.
-          // Join these to enable comparison. This is usable but not perfect for minor
-          // version number > 9.
-          if (parseFloat(ver.replace(/\./g, '')) > parseFloat(VERSION.replace(/\./g, ''))) {
-            notifier(ver, VERSION, URL);
-          }
+    // Based on https://gist.github.com/874058
+    var VERSION = "0.3.36186.35614";
+    var URL = "https://raw.github.com/kasperg/harvest-task-pick/master/jquery.harvest-task-pick.js";
+    
+    if (window["selfUpdaterCallback:" + URL]) {
+      window["selfUpdaterCallback:" + URL](VERSION);
+      return;
+    }
+    
+    function updateCheck(notifier) {
+      window["selfUpdaterCallback:" + URL] = function (ver) {
+        // Versions are string containing multiple .(periods) to split version elements.
+        // Join these to enable comparison. This is usable but not perfect for minor
+        // version number > 9.
+        if (parseFloat(ver.replace(/\./g, '')) > parseFloat(VERSION.replace(/\./g, ''))) {
+          notifier(ver, VERSION, URL);
         }
-        jQuery("<script />").attr("src", URL).appendTo("head");
       }
+      jQuery("<script />").attr("src", URL).appendTo("head");
+    }
 
-      updateCheck(function (newVersion, oldVersion, url) {
+    updateCheck(function (newVersion, oldVersion, url) {
+      // We notify for new versions on first run and subsequently each week
+      // There doesn't seem to be a way of doing this before the external source is checked.
+      // We can only throttle how often notifications are actually shown.
+      var lastCheck = jQuery.cookie('harvest_task_pick_last_update_check');
+      if (!lastCheck ||
+          (new Date().getTime() > (lastCheck + (60 * 60 * 24 * 7)))) {
         if (confirm("A new version of Harvest Task Pick is avaiable.\n\n" + 
                     "The most recent version is " + newVersion + ".\n" +
                     "Your current version is " + oldVersion + ".\n\n" +
                     "Do you want to download it from " + url + " now?")) {
           window.location.href = url;
         }
-      });
-    };
+      }
+      // Set new notification time
+      jQuery.cookie('harvest_task_pick_last_update_check', new Date().getTime());
+    });
   },  
     
   self.init = function() {
