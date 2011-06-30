@@ -24,7 +24,7 @@
 // @name            Harvest Task Pick
 // @namespace       http://reload.dk/
 // @description     Select harvest tasks using autocomplete instead of drop downs
-// @version         0.3.36182.27771
+// @version         0.3.36186.30356
 // @include         https://*.harvestapp.com/*
 // @match           https://*.harvestapp.com/*
 // ==/UserScript==
@@ -61,12 +61,14 @@ HarvestTaskPick = function() {
   
   self.updateCheck = function() {
     var lastCheck = jQuery.cookie('harvest_task_pick_last_update_check');
-    // We check for new versions each week
-    if (lastCheck && 
+    // We check for new versions on first run and subsequently each week
+    if (!lastCheck ||
         (new Date().getTime() > (lastCheck + (60 * 60 * 24 * 7)))) {
+      jQuery.cookie('harvest_task_pick_last_update_check', new Date().getTime());
+      
       // Based on https://gist.github.com/874058
-      var VERSION = "0.3.36182.27771";
       var URL = "https://raw.github.com/kasperg/harvest-task-pick/master/harvest-task-pick.user.js";
+      var VERSION = "0.3.36186.30356";
       
       if (window["selfUpdaterCallback:" + URL]) {
         window["selfUpdaterCallback:" + URL](VERSION);
@@ -86,7 +88,6 @@ HarvestTaskPick = function() {
       }
 
       updateCheck(function (newVersion, oldVersion, url) {
-        jQuery.cookie('harvest_task_pick_last_update_check', new Date().getTime());          
           if (confirm("A new version of Harvest Task Pick is avaiable.\n\n" + 
                       "The most recent version is " + newVersion + ".\n" +
                       "Your current version is " + oldVersion + ".\n\n" +
