@@ -37,9 +37,8 @@ function insert_build_version($matches) {
   // Base build numbers on the time of the build
   // Somewhat convoluted but it conforms to Chromes rules:
   // 1-4 .(dot)-separated integers between 0 and 65356.
-  $time = time();
-  $major = floor(sqrt($time));
-  $minor = $time % $major;
+  $major = date('yz'); //[year][day of the year]
+  $minor = (date('G') * 60) + ((($minutes = date('i')) && ($minutes[0] == 0)) ? $minutes[1] : $minutes); //[minutes into the day]
   
   return implode('.', array($version_string, $major, $minor));
 }
