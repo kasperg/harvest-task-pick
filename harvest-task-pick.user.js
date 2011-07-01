@@ -24,7 +24,7 @@
 // @name            Harvest Task Pick
 // @namespace       http://reload.dk/
 // @description     Select harvest tasks using autocomplete instead of drop downs
-// @version         0.3.11180.1323
+// @version         0.3.11181.583
 // @include         https://*.harvestapp.com/*
 // @match           https://*.harvestapp.com/*
 // ==/UserScript==
@@ -61,8 +61,8 @@ HarvestTaskPick = function() {
   
   self.updateCheck = function() {
     // Based on https://gist.github.com/874058
-    var URL = "https://raw.github.com/kasperg/harvest-task-pick/master/jquery.harvest-task-pick.js";
-    var VERSION = "0.3.11180.1323";
+    var VERSION = "0.3.11181.583";
+    var URL = "https://raw.github.com/kasperg/harvest-task-pick/dev/harvest-task-pick.user.js";
     
     if (window["selfUpdaterCallback:" + URL]) {
       window["selfUpdaterCallback:" + URL](VERSION);
@@ -119,7 +119,7 @@ HarvestTaskPick = function() {
   self.scripts.push('https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
   self.scripts.push('https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js');
   self.scripts.push('https://raw.github.com/kasperg/awesomecomplete/master/jquery.awesomecomplete.js');
-  self.scripts.push('https://raw.github.com/kasperg/harvest-task-pick/master/jquery.harvest-task-pick.js');
+  self.scripts.push('https://raw.github.com/kasperg/harvest-task-pick/dev/jquery.harvest-task-pick.js');
   self.loadScripts([self.init, self.updateCheck]);
 
   self.loadStyles(styles);
@@ -192,89 +192,9 @@ ul.autocomplete span.match\
 }\
               /* Harvest Tack Pick element styles */\
 \
-.harvest-task-pick input\
-{\
-  font-size: 18px;\
-  font-weight: bold;\
-  height: 22px;\
-  padding: 10px 8px;  \
-}\
-\
-.harvest-task-pick ul.autocomplete\
-{\
-  z-index: 1;\
-}\
-\
-.harvest-task-pick ul.autocomplete li.active\
-{\
-    background-color: #EEE;\
-}\
-\
-.harvest-task-pick ul.autocomplete li p.title\
-{\
-  padding: 0;\
-  color: #444;\
-  font-size: 11px;\
-}\
-\
-/* Default awesomecomplete styles */\
-\
-ul.autocomplete\
-{\
-    background-color: #fff;\
-    border: 1px solid #777;\
-    display: block;\
-    list-style-type: none;\
-    margin: 0;\
-    min-height: 100px;\
-    padding: 2px;\
-    position: absolute;\
-}\
-\
-ul.autocomplete li\
-{\
-    border-top: 1px solid #aaa;\
-    cursor: pointer;\
-    padding: 4px;\
-}\
-\
-ul.autocomplete li:first-child\
-{\
-    border-top: none;\
-}\
-\
-ul.autocomplete li.active\
-{\
-    background-color: #eef;\
-}\
-\
-/* Default render function styles */\
-\
-ul.autocomplete li p\
-{\
-    margin: 1px 4px;\
-}\
-\
-ul.autocomplete li p.title\
-{\
-    font-weight: bold;\
-}\
-\
-ul.autocomplete li p.matchRow\
-{\
-    color: #666;\
-}\
-\
-ul.autocomplete li span.matchedField\
-{\
-    color: #999;\
-    font-style: italic;\
-}\
-\
-ul.autocomplete span.match\
-{\
-    font-weight: bold;\
-    text-decoration: underline;\
-}";
+.harvest-task-pick input { height: 22px; padding: 10px 8px; font-size: 18px; font-weight: bold; }\
+.harvest-task-pick ul.autocomplete { z-index: 1; }\
+.harvest-task-pick ul.autocomplete li.active { background-color: #EEE; }\
+.harvest-task-pick ul.autocomplete li p.title { padding: 0; color: #444; font-size: 11px; }";
 
 HarvestTaskPick();

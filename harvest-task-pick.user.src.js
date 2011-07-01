@@ -62,7 +62,7 @@ HarvestTaskPick = function() {
   self.updateCheck = function() {
     // Based on https://gist.github.com/874058
     var VERSION = "/* version */";
-    var URL = "https://raw.github.com/kasperg/harvest-task-pick/master/jquery.harvest-task-pick.js";
+    var URL = "https://raw.github.com/kasperg/harvest-task-pick/dev/harvest-task-pick.user.js";
     
     if (window["selfUpdaterCallback:" + URL]) {
       window["selfUpdaterCallback:" + URL](VERSION);
@@ -119,7 +119,7 @@ HarvestTaskPick = function() {
   self.scripts.push('https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
   self.scripts.push('https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js');
   self.scripts.push('https://raw.github.com/kasperg/awesomecomplete/master/jquery.awesomecomplete.js');
-  self.scripts.push('https://raw.github.com/kasperg/harvest-task-pick/master/jquery.harvest-task-pick.js');
+  self.scripts.push('https://raw.github.com/kasperg/harvest-task-pick/dev/jquery.harvest-task-pick.js');
   self.loadScripts([self.init, self.updateCheck]);
 
   self.loadStyles(styles);
@@ -127,6 +127,6 @@ HarvestTaskPick = function() {
 
 // Styles are injected here
 var styles = "/* styles(https://raw.github.com/kasperg/awesomecomplete/master/awesomecomplete.css) */\
-              /* styles(https://raw.github.com/kasperg/harvest-task-pick/master/harvest-task-pick.css) */";
+              /* styles(https://raw.github.com/kasperg/harvest-task-pick/dev/harvest-task-pick.css) */";
 
 HarvestTaskPick();
